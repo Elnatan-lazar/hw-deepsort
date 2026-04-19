@@ -41,6 +41,17 @@ def deep_sorted(x) -> str:
         elems = sorted(x, key=str)
         inner = ", ".join(deep_sorted(e) for e in elems)
         return f"({inner},)" if len(elems) == 1 else f"({inner})"
+    elif isinstance(x, str):
+        # Numeric strings display without quotes to match int/float representation
+        try:
+            return str(int(x))
+        except ValueError:
+            pass
+        try:
+            return str(float(x))
+        except ValueError:
+            pass
+        return repr(x)
     else:
         return repr(x)
 
